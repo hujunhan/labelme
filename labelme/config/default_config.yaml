@@ -104,3 +104,7 @@ shortcuts:
   edit_label: Ctrl+E
   toggle_keep_prev_mode: Ctrl+P
   remove_selected_point: [Meta+H, Backspace]
+
+rect_label: 'leaf'
+line_label: 'leaf_blur'
+point_label: 'point'

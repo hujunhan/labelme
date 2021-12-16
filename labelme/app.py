@@ -326,7 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createRectangleMode = action(
             self.tr("Create Rectangle"),
-            lambda: self.toggleDrawMode(False, createMode="rectangle",custom_text='leaf'),
+            lambda: self.toggleDrawMode(False, createMode="rectangle",custom_text=self._config['rect_label']),
             shortcuts["create_rectangle"],
             "objects",
             self.tr("Start drawing rectangles"),
@@ -342,7 +342,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createLineMode = action(
             self.tr("Create Line"),
-            lambda: self.toggleDrawMode(False, createMode="line",custom_text='leaf_blur'),
+            lambda: self.toggleDrawMode(False, createMode="line",custom_text=self._config['line_label']),
             shortcuts["create_line"],
             "objects",
             self.tr("Start drawing lines"),
@@ -350,7 +350,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createPointMode = action(
             self.tr("Create Point"),
-            lambda: self.toggleDrawMode(False, createMode="point",custom_text='point'),
+            lambda: self.toggleDrawMode(False, createMode="point",custom_text=self._config['point_label']),
             shortcuts["create_point"],
             "objects",
             self.tr("Start drawing points"),
