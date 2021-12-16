@@ -88,10 +88,10 @@ shortcuts:
   fit_width: Ctrl+Shift+F
 
   create_polygon: Ctrl+N
-  create_rectangle: Ctrl+R
+  create_rectangle: Space
   create_circle: null
-  create_line: null
-  create_point: null
+  create_line: e
+  create_point: w
   create_linestrip: null
   edit_polygon: Ctrl+J
   delete_polygon: Delete

@@ -326,7 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createRectangleMode = action(
             self.tr("Create Rectangle"),
-            lambda: self.toggleDrawMode(False, createMode="rectangle"),
+            lambda: self.toggleDrawMode(False, createMode="rectangle",custom_text='leaf'),
             shortcuts["create_rectangle"],
             "objects",
             self.tr("Start drawing rectangles"),
@@ -342,7 +342,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createLineMode = action(
             self.tr("Create Line"),
-            lambda: self.toggleDrawMode(False, createMode="line"),
+            lambda: self.toggleDrawMode(False, createMode="rectangle",custom_text='leaf_blur'),
             shortcuts["create_line"],
             "objects",
             self.tr("Start drawing lines"),
@@ -956,7 +956,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actions.undo.setEnabled(not drawing)
         self.actions.delete.setEnabled(not drawing)
 
-    def toggleDrawMode(self, edit=True, createMode="polygon"):
+    def toggleDrawMode(self, edit=True, createMode="polygon",custom_text=''):
         self.canvas.setEditing(edit)
         self.canvas.createMode = createMode
         if edit:
@@ -981,13 +981,15 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineMode.setEnabled(True)
                 self.actions.createPointMode.setEnabled(True)
                 self.actions.createLineStripMode.setEnabled(True)
+                self.text=custom_text
             elif createMode == "line":
                 self.actions.createMode.setEnabled(True)
-                self.actions.createRectangleMode.setEnabled(True)
+                self.actions.createRectangleMode.setEnabled(False)
                 self.actions.createCircleMode.setEnabled(True)
-                self.actions.createLineMode.setEnabled(False)
+                self.actions.createLineMode.setEnabled(True)
                 self.actions.createPointMode.setEnabled(True)
                 self.actions.createLineStripMode.setEnabled(True)
+                self.text='leaf_blur'
             elif createMode == "point":
                 self.actions.createMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
@@ -995,6 +997,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineMode.setEnabled(True)
                 self.actions.createPointMode.setEnabled(False)
                 self.actions.createLineStripMode.setEnabled(True)
+                self.text='point'
             elif createMode == "circle":
                 self.actions.createMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
@@ -1349,8 +1352,10 @@ class MainWindow(QtWidgets.QMainWindow):
         flags = {}
         group_id = None
         if self._config["display_label_popup"] or not text:
+            
             previous_text = self.labelDialog.edit.text()
-            text, flags, group_id = self.labelDialog.popUp(text)
+            text=self.text
+            # text, flags, group_id = self.labelDialog.popUp(text)
             if not text:
                 self.labelDialog.edit.setText(previous_text)
 
