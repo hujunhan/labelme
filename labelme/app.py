@@ -108,7 +108,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.labelList = LabelListWidget()
         self.lastOpenDir = None
-
+        self.text=''
         self.flag_dock = self.flag_widget = None
         self.flag_dock = QtWidgets.QDockWidget(self.tr("Flags"), self)
         self.flag_dock.setObjectName("Flags")
@@ -342,7 +342,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createLineMode = action(
             self.tr("Create Line"),
-            lambda: self.toggleDrawMode(False, createMode="rectangle",custom_text='leaf_blur'),
+            lambda: self.toggleDrawMode(False, createMode="line",custom_text='leaf_blur'),
             shortcuts["create_line"],
             "objects",
             self.tr("Start drawing lines"),
@@ -350,7 +350,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         createPointMode = action(
             self.tr("Create Point"),
-            lambda: self.toggleDrawMode(False, createMode="point"),
+            lambda: self.toggleDrawMode(False, createMode="point",custom_text='point'),
             shortcuts["create_point"],
             "objects",
             self.tr("Start drawing points"),
@@ -982,6 +982,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createPointMode.setEnabled(True)
                 self.actions.createLineStripMode.setEnabled(True)
                 self.text=custom_text
+                logger.info('rect mode '+custom_text)
+                
             elif createMode == "line":
                 self.actions.createMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(False)
@@ -989,7 +991,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineMode.setEnabled(True)
                 self.actions.createPointMode.setEnabled(True)
                 self.actions.createLineStripMode.setEnabled(True)
-                self.text='leaf_blur'
+                     
+                self.text=custom_text
+                logger.info('line mode '+custom_text)
             elif createMode == "point":
                 self.actions.createMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
@@ -997,7 +1001,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.actions.createLineMode.setEnabled(True)
                 self.actions.createPointMode.setEnabled(False)
                 self.actions.createLineStripMode.setEnabled(True)
-                self.text='point'
+                self.text=custom_text
+                logger.info('point mode '+custom_text)
             elif createMode == "circle":
                 self.actions.createMode.setEnabled(True)
                 self.actions.createRectangleMode.setEnabled(True)
@@ -1346,19 +1351,16 @@ class MainWindow(QtWidgets.QMainWindow):
         position MUST be in global coordinates.
         """
         items = self.uniqLabelList.selectedItems()
-        text = None
-        if items:
-            text = items[0].data(Qt.UserRole)
+        text = self.text
+        # if items:
+        #     text = items[0].data(Qt.UserRole)
         flags = {}
         group_id = None
         if self._config["display_label_popup"] or not text:
             
-            previous_text = self.labelDialog.edit.text()
+            previous_text = self.text
             text=self.text
-            # text, flags, group_id = self.labelDialog.popUp(text)
-            if not text:
-                self.labelDialog.edit.setText(previous_text)
-
+            logger.info('Now text: '+text)
         if text and not self.validateLabel(text):
             self.errorMessage(
                 self.tr("Invalid label"),
