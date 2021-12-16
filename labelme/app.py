@@ -986,9 +986,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 
             elif createMode == "line":
                 self.actions.createMode.setEnabled(True)
-                self.actions.createRectangleMode.setEnabled(False)
+                self.actions.createRectangleMode.setEnabled(True)
                 self.actions.createCircleMode.setEnabled(True)
-                self.actions.createLineMode.setEnabled(True)
+                self.actions.createLineMode.setEnabled(False)
                 self.actions.createPointMode.setEnabled(True)
                 self.actions.createLineStripMode.setEnabled(True)
                      
